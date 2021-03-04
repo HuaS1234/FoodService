@@ -28,6 +28,6 @@ public class FoodRepository {
 
         //confirm
         if (foodDatabase.get(mealTime).size() == 0 || size + 1 != foodDatabase.get(mealTime).size()) return  "/Not Completed";
-        else return "/Completed";
+        else return "/Completed!";
     }
 }
