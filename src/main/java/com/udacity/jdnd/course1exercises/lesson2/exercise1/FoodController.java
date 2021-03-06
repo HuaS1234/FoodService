@@ -1,5 +1,6 @@
 package com.udacity.jdnd.course1exercises.lesson2.exercise1;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ public class FoodController {
 
     private FoodService foodService;
     private String message;
-    private Boolean firstVisit;
+    private MessageService messageService;
 
-    public FoodController(FoodService foodService, String message) {
+    public FoodController(FoodService foodService, String message, MessageService messageService) {
         this.message = message;
         this.foodService = foodService;
-        firstVisit = true;
+        this.messageService = messageService;
     }
 
     public String getHomePage(FoodForm foodForm, Model model) {
@@ -35,23 +36,29 @@ public class FoodController {
         MealTime mealTime = MealTime.BREAKFAST;
         return foodService.isFoodAvailableAtMealTime(foodName, mealTime);
     }
-    @GetMapping
-    @RequestMapping("/home")  //need @RequestMapping or @GetMapping to response to the HTTP request.
-    public String getHomePage(Model m) {
-        //return message; //return "hello there" which was defined as bean at the main class.
-        m.addAttribute("welcomeMessage", Instant.now().toString()); //current timestamp
-        m.addAttribute("welcomeMessage", "test1"); //replace welcomeMessage
-        m.addAttribute("greetings", new String[]{"hi", "hello", "bye"});
-        m.addAttribute("msgs", "testn");
-        m.addAttribute("firstVisit", firstVisit);
-        firstVisit = false;
+    @GetMapping("/home")   //need @RequestMapping or @GetMapping to response to the HTTP request.
+    public String getHomePage(@ModelAttribute("newMessage") MessageForm newMessage, Model m) {
+//        return message; //return "hello there" which was defined as bean at the main class.
+//        m.addAttribute("welcomeMessage", Instant.now().toString()); //current timestamp
+//        m.addAttribute("greetings", new String[]{"hi", "hello", "bye"});
+
+        m.addAttribute("greetings", this.messageService.getMessages());
+        return "home";
+
+    }
+    @PostMapping("/home")
+    public String postHomePage(@ModelAttribute("newMessage") MessageForm newMessage, Model m) {
+        String str = newMessage.getText();
+        messageService.addMessage(str);
+        m.addAttribute("greetings", this.messageService.getMessages());
         return "home";
     }
+
     @RequestMapping("/home/simplehome")  //need @RequestMapping or @GetMapping to response to the HTTP request.
     public String getSimpleHomePage(Model m) {
-        m.addAttribute("firstVisit", firstVisit);
         return "home";
     }
+
 //    @GetMapping
 //    public List<FoodData> getFoodRepository(@RequestBody int index) {
 //        try{

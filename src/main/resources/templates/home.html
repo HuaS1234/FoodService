@@ -8,17 +8,22 @@
         <form action="#" th:action="@{/home/simplehome}" >
             <input type="submit" value="Visit me">
         </form>
-        <h1 th:if="${firstVisit}">Hello, homepage!</h1>
-        <h1 th:unless="${firstVisit}">Welcome back!</h1>
 
-        <h1>Hello, homepage!</h1>
-        <h1>Welcome back!</h1>
-        <h1 th:text="${welcomeMessage}">Hello1!</h1>
-        <h1 th:text="${msgs}">Hello1!</h1>
+        <form th:object="${newMessage}" th:action="@{/home/test}" action="#" method="POST">
+            <input type="text" id="newMessageText" name="newMessageText" th:field="*{text}">
+            <input type="submit">
+        </form>
+
+<!--        <h1 th:if="${firstVisit}">Hello, homepage!</h1>-->
+<!--        <h1 th:unless="${firstVisit}">Welcome back!</h1>-->
+<!--        <h1>Hello, homepage!</h1>-->
+<!--        <h1>Welcome back!</h1>-->
+<!--        <h1 th:text="${welcomeMessage}">Hello1!</h1>-->
+<!--        <h1 th:text="${msgs}">Hello1!</h1>-->
         <h1 th:each="msg : ${greetings}"
-            th:text="${msg}"
+            th:text="${msg}"-->
             th:unless="${msg.contains('bye')}"
-        >Hello1!</h1>
+             >Hello1!</h1>
 
 
     </body>
