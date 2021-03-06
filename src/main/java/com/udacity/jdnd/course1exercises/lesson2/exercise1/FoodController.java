@@ -18,10 +18,12 @@ public class FoodController {
 
     private FoodService foodService;
     private String message;
+    private Boolean firstVisit;
 
     public FoodController(FoodService foodService, String message) {
         this.message = message;
         this.foodService = foodService;
+        firstVisit = true;
     }
 
     public String getHomePage(FoodForm foodForm, Model model) {
@@ -41,17 +43,24 @@ public class FoodController {
         m.addAttribute("welcomeMessage", "test1"); //replace welcomeMessage
         m.addAttribute("greetings", new String[]{"hi", "hello", "bye"});
         m.addAttribute("msgs", "testn");
+        m.addAttribute("firstVisit", firstVisit);
+        firstVisit = false;
         return "home";
     }
-    @GetMapping
-    public List<FoodData> getFoodRepository(@RequestBody int index) {
-        try{
-            return foodService.getFoodRepository(MealTime.values()[index]);
-        }
-        catch(Exception e) {
-            return new ArrayList<>();
-        }
+    @RequestMapping("/home/simplehome")  //need @RequestMapping or @GetMapping to response to the HTTP request.
+    public String getSimpleHomePage(Model m) {
+        m.addAttribute("firstVisit", firstVisit);
+        return "home";
     }
+//    @GetMapping
+//    public List<FoodData> getFoodRepository(@RequestBody int index) {
+//        try{
+//            return foodService.getFoodRepository(MealTime.values()[index]);
+//        }
+//        catch(Exception e) {
+//            return new ArrayList<>();
+//        }
+//    }
     @PostMapping
     public String addFood(@RequestBody FoodForm foodForm) {
         String log = foodService.addFood(foodForm.getFoodName(), foodForm.getCalories(), foodForm.getMealTime());

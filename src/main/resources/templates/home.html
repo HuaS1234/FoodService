@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<h1>Hello, homepage!</h1>
-<h1 th:text="${welcomeMessage}">Hello1!</h1>
-<h1 th:text="${msgs}">Hello1!</h1>
-<h1 th:each="msg : ${greetings}"
-    th:text="${msg}"
-    th:unless="${msg.contains('bye')}"
->Hello1!</h1>
-</body>
+    <body>
+        <form action="#" th:action="@{/home/simplehome}" >
+            <input type="submit" value="Visit me">
+        </form>
+        <h1 th:if="${firstVisit}">Hello, homepage!</h1>
+        <h1 th:unless="${firstVisit}">Welcome back!</h1>
+
+        <h1>Hello, homepage!</h1>
+        <h1>Welcome back!</h1>
+        <h1 th:text="${welcomeMessage}">Hello1!</h1>
+        <h1 th:text="${msgs}">Hello1!</h1>
+        <h1 th:each="msg : ${greetings}"
+            th:text="${msg}"
+            th:unless="${msg.contains('bye')}"
+        >Hello1!</h1>
+
+
+    </body>
 </html>
